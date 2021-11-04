@@ -1,0 +1,76 @@
+app.js
+
+import { animals } from './animals';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const title = '';
+const showBackground = true;
+const background = (
+  <img className="background" alt="ocean" src="/images/ocean.jpg" />
+);
+
+const animalFacts = (
+  <div>
+    <h1>{title ? title : 'Click an animal for a fun fact'}</h1>
+    <p id="fact"></p>
+    {showBackground && background }
+  </div>
+);
+
+
+let images = [];
+for(let animal in animals){
+  images.push(<img key={animal} className="animal" alt={animal} src={animals[animal].image} aria-label={animal} role="button" onClick={displayFact}/>)
+}
+
+const compose = (
+  <div>
+    {animalFacts}
+    {showBackground && background}
+    <div className="animals">{images}</div>
+  </div>
+);
+
+function displayFact(e) {
+  let randomNum = Math.floor(Math.random() * animals[e.target.alt].facts.length);
+  document.getElementById("fact").innerHTML = animals[e.target.alt].facts[randomNum];
+}
+
+
+ReactDOM.render(compose, document.getElementById('root'));
+
+
+
+animal.js
+
+export const animals = {
+  dolphin: {
+    image: '/images/dolphin.jpg',
+    facts: ['Dolphins have been shown to give distinct names to each other!', 'Dolphins are known to display their own culture!', 'Dolphins have two stomachs!']
+  },
+  lobster: {
+    image: '/images/lobster.jpg',
+    facts: ['Lobsters taste with their legs!', 'Lobsters chew with their stomachs!', 'Lobsters can live as long as 100 years.']
+  },
+  starfish: {
+    image: '/images/starfish.jpg',
+    facts: ['Starfish can have up to 40 arms!', 'Starfish have no brain and no blood!', 'Starfish can regenerate their own arms!']
+  }
+};
+
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://content.codecademy.com/courses/React/react-course-bundle.min.js"></script>
+	<script src="/app.compiled.js"></script>
+  </body>
+</html>
